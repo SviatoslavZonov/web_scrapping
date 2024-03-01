@@ -9,6 +9,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/58.0.
 def get_page(url):
     return requests.get(url, headers=headers)
 
+# ищем по тегам инфо
 def parser_vacansies(tag_vacancy):
     link = tag_vacancy.find('a', class_='bloko-link')['href']
     salary = tag_vacancy.find(attrs={'data-qa': 'vacancy-serp__vacancy-compensation'})
@@ -16,15 +17,16 @@ def parser_vacansies(tag_vacancy):
         salary = salary.text.strip()
     else:
         salary = 'Не указана'
-    company = tag_vacancy.find('div', class_='vacancy-serp-item__meta-info-company').string
+    company = tag_vacancy.find('div', class_='vacancy-serp-item__meta-info-company').text.strip()
     city = tag_vacancy.find('div', attrs={'data-qa': 'vacancy-serp__vacancy-address'}).text
     return {
         'link': link,
         'salary': salary.replace('\u202f', ' '),
-        'company': company,
-        'city': city.replace('\xa01\xa0','...')
+        'company': company.replace('\xa0', ' ').strip(),
+        'city': city.replace('\xa01\xa0', '...')
     }
 
+# записываем в json
 def write_json (data, file_name):
     data = json.dumps(data)
     data = json.loads(data)
@@ -32,6 +34,7 @@ def write_json (data, file_name):
         json.dump(data, file)
         file.write('\n')
 
+# парсим
 def main():
     main_html = get_page(url).text
     soup = BeautifulSoup(main_html, features='html5lib')
