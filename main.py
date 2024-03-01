@@ -11,7 +11,11 @@ def get_page(url):
 
 def parser_vacansies(tag_vacancy):
     link = tag_vacancy.find('a', class_='bloko-link')['href']
-    salary = tag_vacancy.find(attrs={'data-qa': 'vacancy-serp__vacancy-compensation'}).text
+    salary = tag_vacancy.find(attrs={'data-qa': 'vacancy-serp__vacancy-compensation'})
+    if salary:
+        salary = salary.text.strip()
+    else:
+        salary = 'Не указана'
     company = tag_vacancy.find('div', class_='vacancy-serp-item__meta-info-company').string
     city = tag_vacancy.find('div', attrs={'data-qa': 'vacancy-serp__vacancy-address'}).text
     return {
