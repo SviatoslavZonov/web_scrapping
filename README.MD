@@ -1,6 +1,6 @@
 # Решение домашнего задания
 
-Решение: Задание [№1,2,3](https://github.com/SviatoslavZonov/Regular_expressions/blob/main/main.py) 
+Решение: Задание [№1,2,3](https://github.com/SviatoslavZonov/web_scrapping/blob/main/main.py) 
 
 # Домашнее задание к лекции 6.«Web-scrapping»
 
